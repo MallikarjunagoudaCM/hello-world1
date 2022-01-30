@@ -1,0 +1,35 @@
+pipeline {
+    agent { label 'Master' }
+    environment { PATH= "/opt/apache-maven-3.8.4/bin:$PATH" }
+    stages {
+        
+        stage ('Git') {
+            
+            steps {
+                git 'https://github.com/MallikarjunagoudaCM/hello-world.git'
+            }
+            
+        }
+        
+        stage ('build') {
+            
+            steps {
+               sh "mvn clean package"
+               sh "pwd"
+            }
+        }
+        
+        stage ('deploy') {
+            
+            steps {
+                sshagent(['a6a793f6-2b73-4107-bc3b-39ce4461d106']) {
+                    sh 'scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Pipe2/webapp/target/webapp.war root@159.89.170.18:/opt/tomcat/apache-tomcat-9.0.58/webapps'
+                    
+                }
+               
+            }
+        }
+        
+    }
+    
+}

@@ -24,7 +24,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'ac71f888-b05d-4b62-9154-6d9cfe08ad38', variable: 'dockercredn')]) {
 
-                sh "docker build tag mallikarjunagouda/webapp:v1"
+                sh "docker build tag mallikarjunagouda/webapp:v1 ."
                   sh "docker push -u mallikarjunagouda -p ${dockercredn} mallikarjunagouda/webapp:v1"
                 }                
                
@@ -36,7 +36,7 @@ pipeline {
             steps {
                 sshagent(['a6a793f6-2b73-4107-bc3b-39ce4461d106']) {
                   git 'https://github.com/MallikarjunagoudaCM/hello-world1.git'
-                  sh "docker build tag mallikarjunagouda/webapp:v1"
+                  sh "docker build tag mallikarjunagouda/webapp:v1 ."
                   sh "docker push mallikarjunagouda/webapp:v1"
                 }
                

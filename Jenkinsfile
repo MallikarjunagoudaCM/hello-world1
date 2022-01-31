@@ -24,7 +24,7 @@ pipeline {
         }
         
         stage ('Docker Image build on Master') {
-            environment { dockerImagels= "docker images -aq" }
+            environment { dockerImagels= "docker images -a -q" }
             steps {
                 withCredentials([string(credentialsId: 'dockercredn', variable: 'dockercred')]) {
                  sh "whoami"

@@ -1,5 +1,6 @@
 pipeline {
     agent { label 'Master' }
+    properties([parameters([choice(choices: ['v1', 'v2', 'v3', 'v4'], description: 'Choose version of Docker Image', name: 'version')])])
     
     stages {
         
@@ -24,9 +25,9 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockercredn', variable: 'dockercred')]) {
                  sh "whoami"
-                sh "docker build --tag mallikarjunagouda/webapp:v1 ."
+                sh "docker build --tag mallikarjunagouda/webapp:${params.version} ."
                 sh "docker login -u mallikarjunagouda -p ${dockercred}"
-                sh "docker push mallikarjunagouda/webapp:v1"
+                sh "docker push mallikarjunagouda/webapp:${params.version}"
                 }                
                
             }
@@ -35,7 +36,7 @@ pipeline {
 
         stage ('deploy into Docker Container') {
             environment { dockerDel = "docker rm -f web" 
-                          dockerRun = "docker run -d -p 8080:8080 --name web mallikarjunagouda/webapp:v1" }
+                          dockerRun = "docker run -d -p 8080:8080 --name web mallikarjunagouda/webapp:${params.version}" }
             steps {
                 sshagent(['a6a793f6-2b73-4107-bc3b-39ce4461d106']) {
                     sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockerDel}"

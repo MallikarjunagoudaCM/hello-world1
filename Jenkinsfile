@@ -35,12 +35,11 @@ pipeline {
 
         stage ('Docker Image build on Digital_node') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'splunk1', keyFileVariable: '', usernameVariable: 'root')]) {
-                  sh 'ssh -o StrictHostKeyChecking=no root@159.89.170.18 uptime'
-                  git 'https://github.com/MallikarjunagoudaCM/hello-world1.git'
-                  sh "hostname && pwd"
-                  sh "docker build --tag mallikarjunagouda/webapp:v1 ."
-                  sh "docker push mallikarjunagouda/webapp:v1"
+                def dockergit = "git https://github.com/MallikarjunagoudaCM/hello-world1.git"
+                def dockerbuild = "docker build --tag mallikarjunagouda/webapp:v1 ."
+                sshagent(['splunk1']) {
+                  sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockergit}"
+                  sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockerbuild}"
                 }
                
             }

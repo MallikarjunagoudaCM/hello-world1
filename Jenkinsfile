@@ -28,7 +28,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'dockercredn', variable: 'dockercred')]) {
                  sh "whoami"
-                 sh " docker rmi ${dockerImagels}"
+                 sh "docker rmi ${dockerImagels}"
                 sh "docker build --tag mallikarjunagouda/webapp:${params.version} ."
                 sh "docker login -u mallikarjunagouda -p ${dockercred}"
                 sh "docker push mallikarjunagouda/webapp:${params.version}"

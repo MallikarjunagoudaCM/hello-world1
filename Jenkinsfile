@@ -37,6 +37,7 @@ pipeline {
             steps {
                 sshagent(['a6a793f6-2b73-4107-bc3b-39ce4461d106']) {
                   git 'https://github.com/MallikarjunagoudaCM/hello-world1.git'
+                  sh "hostname && pwd"
                   sh "docker build --tag mallikarjunagouda/webapp:v1 ."
                   sh "docker push mallikarjunagouda/webapp:v1"
                 }

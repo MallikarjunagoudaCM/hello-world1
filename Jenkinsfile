@@ -34,9 +34,9 @@ pipeline {
 
 
         stage ('Docker Image build on Digital_node') {
+            def dockergit = "git https://github.com/MallikarjunagoudaCM/hello-world1.git"
+            def dockerbuild = "docker build --tag mallikarjunagouda/webapp:v1 ."
             steps {
-                def dockergit = "git https://github.com/MallikarjunagoudaCM/hello-world1.git"
-                def dockerbuild = "docker build --tag mallikarjunagouda/webapp:v1 ."
                 sshagent(['splunk1']) {
                   sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockergit}"
                   sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockerbuild}"

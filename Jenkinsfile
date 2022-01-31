@@ -36,7 +36,7 @@ pipeline {
         stage ('deploy into Docker Container') {
             
             steps {
-                def dockerRun = "docker run -d -p 8080:8080 --name web mallikarjunagouda/webapp:v1"
+                environment { dockerRun = "docker run -d -p 8080:8080 --name web mallikarjunagouda/webapp:v1" }
                 sshagent(['a6a793f6-2b73-4107-bc3b-39ce4461d106']) {
                     sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockerRun}"                    
                 }

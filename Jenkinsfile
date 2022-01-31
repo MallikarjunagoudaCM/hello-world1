@@ -35,8 +35,8 @@ pipeline {
 
         stage ('Docker Image build on Digital_node') {
             steps {
-                sshagent(['d23e63f8-c68c-4c29-be87-fe740f5746c4']) {
-                  sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18"
+                withCredentials([sshUserPrivateKey(credentialsId: 'a6a793f6-2b73-4107-bc3b-39ce4461d106', keyFileVariable: '', usernameVariable: 'root')]) {
+                  
                   git 'https://github.com/MallikarjunagoudaCM/hello-world1.git'
                   sh "hostname && pwd"
                   sh "docker build --tag mallikarjunagouda/webapp:v1 ."

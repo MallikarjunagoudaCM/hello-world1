@@ -1,6 +1,8 @@
 pipeline {
     agent { label 'Master' }
-    properties([parameters([choice(choices: ['v1', 'v2', 'v3', 'v4'], description: 'Choose version of Docker Image', name: 'version')])])
+    parameters {
+        choice(choices: ['v1', 'v2', 'v3', 'v4'], description: 'Choose version of Docker Image', name: 'version')
+    }
     
     stages {
         

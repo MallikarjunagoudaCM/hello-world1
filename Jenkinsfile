@@ -34,9 +34,11 @@ pipeline {
 
 
         stage ('deploy into Docker Container') {
-            environment { dockerRun = "docker run -d -p 8080:8080 --name web mallikarjunagouda/webapp:v1" }
+            environment { dockerDel = "docker rm -f $(docker ps -aq)" 
+                          dockerRun = "docker run -d -p 8080:8080 --name web mallikarjunagouda/webapp:v1" }
             steps {
                 sshagent(['a6a793f6-2b73-4107-bc3b-39ce4461d106']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockerDel}"
                     sh "ssh -o StrictHostKeyChecking=no root@159.89.170.18 ${dockerRun}"                    
                 }
                
